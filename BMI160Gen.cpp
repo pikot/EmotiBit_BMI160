@@ -2,14 +2,14 @@
 #include "SPI.h"
 
 
-//#define DEBUG
+// #define DEBUG
 
 bool BMI160GenClass::begin(const int spi_cs_pin, const int intr_pin)
 {	
-    return begin(SPI_MODE, Wire, spi_cs_pin, intr_pin);
+    return begin(SPI_MODE, Wire, spi_cs_pin, intr_pin, false);
 }
 
-bool BMI160GenClass::begin(Mode mode, TwoWire &wirePort,const int arg1, const int arg2)
+bool BMI160GenClass::begin(Mode mode, TwoWire &wirePort, const int arg1, const int arg2, bool inited)
 {
     this->mode = mode;
 	_i2cPort = &wirePort;
@@ -34,7 +34,7 @@ bool BMI160GenClass::begin(Mode mode, TwoWire &wirePort,const int arg1, const in
         Serial.println(interrupt_pin);
 #endif
     }
-    return CurieIMUClass::begin();
+    return CurieIMUClass::begin(inited);
 }
 
 void BMI160GenClass::attachInterrupt(void (*callback)(void))
@@ -45,6 +45,12 @@ void BMI160GenClass::attachInterrupt(void (*callback)(void))
     } else {
         Serial.println("BMI160GenClass::attachInterrupt: No valid interruption pin.");
     }
+}
+
+
+CurieIMUStepMode BMI160GenClass::getStepDetectionMode()
+{
+    return (CurieIMUStepMode)CurieIMUClass::getStepDetectionMode();
 }
 
 void BMI160GenClass::ss_init()

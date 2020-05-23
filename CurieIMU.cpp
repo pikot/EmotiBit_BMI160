@@ -39,7 +39,7 @@
  * on the Curie module, before calling BMI160::initialize() to activate the
  * BMI160 accelerometer and gyroscpoe with default settings.
  */
-bool CurieIMUClass::begin()
+bool CurieIMUClass::begin(bool inited)
 {
 #if defined(BMI160GEN_USE_CURIEIMU)
     /* Configure pin-mux settings on the Intel Curie module to 
@@ -56,9 +56,11 @@ bool CurieIMUClass::begin()
     uint8_t dummy_reg = 0x7F;
     serial_buffer_transfer(&dummy_reg, 1, 1);
 
-    /* The SPI interface is ready - now invoke the base class initialization */
-    BMI160Class::initialize();
-
+    if ( !inited )
+    { 
+            /* The SPI interface is ready - now invoke the base class initialization */
+            BMI160Class::initialize();
+    }
     /** Verify the SPI connection.
      * MakgetGyroRatee sure the device is connected and responds as expected.
      * @return True if connection is valid, false otherwise

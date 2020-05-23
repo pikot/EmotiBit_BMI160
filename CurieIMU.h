@@ -94,7 +94,7 @@ class CurieIMUClass : public BMI160Class {
     friend void bmi160_pin1_isr(void);
 
     public:
-        bool begin(void);
+        bool begin(bool inited);
 
         // supported values: 25, 50, 100, 200, 400, 800, 1600, 3200 (Hz)
         int getGyroRate();
